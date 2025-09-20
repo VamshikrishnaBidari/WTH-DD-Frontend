@@ -56,7 +56,7 @@ const Header: React.FC = () => {
   //   );
   // };
 
-  const handleLogout = async () => {
+  const handleLogout = async (): Promise<boolean> => {
     try {
       const response = await api.post("/driving/logout");
       if (response.data.success) {
@@ -65,9 +65,13 @@ const Header: React.FC = () => {
         dispatch(clearSchool());
         toast.success("Logout successful");
         navigate("/school-login");
+        return true;
       }
+      return false;
     } catch (error) {
       console.error("School Logout failed:", error);
+      toast.error("Logout failed. Please try again.");
+      return false;
     }
   };
 
@@ -238,9 +242,11 @@ const Header: React.FC = () => {
                         </button>
                         <hr className="my-1 border-gray-200 dark:border-gray-700" />
                         <button
-                          onClick={() => {
-                            handleLogout();
-                            close();
+                            onClick={async () => {
+                            const success = await handleLogout();
+                            if (success) {
+                              close();
+                            }
                           }}
                           className="w-full flex items-center px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
                         >
