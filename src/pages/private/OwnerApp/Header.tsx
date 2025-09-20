@@ -58,21 +58,38 @@ const Header: React.FC = () => {
 
   const handleLogout = async (): Promise<boolean> => {
     try {
-      const response = await api.post("/driving/logout");
-      if (response.data.success) {
-        // Clear user data from Redux store
-        dispatch(logout());
-        dispatch(clearSchool());
-        toast.success("Logout successful");
-        navigate("/school-login");
-        return true;
-      }
-      return false;
+      // Try API logout (but don't wait for it or depend on it)
+      api.post("/driving/logout").catch(console.error);
     } catch (error) {
-      console.error("School Logout failed:", error);
-      toast.error("Logout failed. Please try again.");
-      return false;
+      // Ignore API errors
     }
+    
+    // Force complete frontend logout
+    dispatch(logout());
+    dispatch(clearSchool());
+    
+    // Clear all possible storage
+    localStorage.clear();
+    sessionStorage.clear();
+    
+    // Clear cookies manually
+    document.cookie.split(";").forEach(cookie => {
+      const eqPos = cookie.indexOf("=");
+      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+    });
+    
+    toast.success("Logged out successfully");
+    
+    // Navigate and force refresh
+    navigate("/school-login", { replace: true });
+    
+    // Force page reload to clear any remaining state
+    setTimeout(() => {
+      window.location.href = "/school-login";
+    }, 100);
+    
+    return true;
   };
 
   useEffect(() => {
