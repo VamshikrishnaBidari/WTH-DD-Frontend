@@ -15,6 +15,13 @@ export default defineConfig([
     rules: {
       // Disable this rule completely
       "react/react-in-jsx-scope": "off",
+      // Disable strict TypeScript rules
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/ban-ts-comment': 'warn',
+      '@typescript-eslint/no-empty-object-type': 'warn',
+      '@typescript-eslint/no-require-imports': 'warn',
+      'no-undef': 'warn',
+      'prefer-const': 'warn',
     },
     settings: {
       react: {

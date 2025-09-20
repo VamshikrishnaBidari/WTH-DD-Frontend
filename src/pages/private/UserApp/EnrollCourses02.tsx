@@ -517,7 +517,7 @@ const EnrollCourses02: React.FC = () => {
       const vehicleTypes = formattedParts.join(" + ");
 
       // Add appropriate license types
-      let licenseTypes: string[] = [];
+      const licenseTypes: string[] = [];
       parts.forEach((part) => {
         const partLower = part.toLowerCase();
         if (
@@ -1514,7 +1514,7 @@ const EnrollCourses02: React.FC = () => {
         courseDataArray,
       );
       let allCoursesCreated = true;
-      let createdCourseDetails: any[] = [];
+      const createdCourseDetails: any[] = [];
       const sortedCourseDataArray = [...courseDataArray].sort((a, b) => {
         if (a.type === "two-wheeler" && b.type === "four-wheeler") return -1;
         if (a.type === "four-wheeler" && b.type === "two-wheeler") return 1;

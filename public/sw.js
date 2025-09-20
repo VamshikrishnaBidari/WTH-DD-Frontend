@@ -301,7 +301,7 @@ self.addEventListener("notificationclick", (event) => {
       includeUncontrolled: true 
     }).then((clients) => {
       // Look for existing window with the target URL
-      for (let client of clients) {
+      for (const client of clients) {
         if (client.url === url && "focus" in client) {
           console.log('SW: Focusing existing window');
           return client.focus();
@@ -309,7 +309,7 @@ self.addEventListener("notificationclick", (event) => {
       }
       
       // Look for any DearDriving window to focus and navigate
-      for (let client of clients) {
+      for (const client of clients) {
         if (client.url.includes(self.location.origin) && "focus" in client) {
           console.log('SW: Focusing existing DearDriving window and navigating');
           client.focus();
